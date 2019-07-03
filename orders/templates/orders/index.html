@@ -1,22 +1,21 @@
-  <!DOCTYPE html>
-  <html lang="en" dir="ltr">
-      <head>
-          <meta charset="utf-8">
-          <title>Menu</title>
-      </head>
-      <body>
-          <h1>Menu</h1>
-          <h2>Regular Pizzas</h2>
-          <ul>
-              {% for regular_pizza in regular_pizzas %}
-              <li>{{regular_pizza.name}} - {{regular_pizza.size}}: {{regular_pizza.prize}}</li>
-              {% endfor %}
-          </ul>
-          <h2>Sicilian Pizzas</h2>
-          <ul>
-              {% for sicilian_pizza in sicilian_pizzas %}
-                <li>{{sicilian_pizza.name}} - {{sicilian_pizza.size}}: {{sicilian_pizza.prize}}</li>
-              {% endfor %}
-          </ul>
-      </body>
-  </html>
+{% extends "orders/layout.html" %}
+
+{% block title %}
+Menu
+{% endblock %}
+
+{% block body %}
+<h1>Menu</h1>
+<h2>Regular Pizzas</h2>
+<ul>
+    {% for regular_pizza in regular_pizzas %}
+    <li>{{regular_pizza.name}} - {{regular_pizza.size}}: {{regular_pizza.prize}}</li>
+    {% endfor %}
+</ul>
+<h2>Sicilian Pizzas</h2>
+<ul>
+    {% for sicilian_pizza in sicilian_pizzas %}
+      <li>{{sicilian_pizza.name}} - {{sicilian_pizza.size}}: {{sicilian_pizza.prize}}</li>
+    {% endfor %}
+</ul>
+{% endblock %}
