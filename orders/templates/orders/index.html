@@ -8,14 +8,29 @@ Menu
 <h1>Menu</h1>
 <h2>Regular Pizzas</h2>
 <ul>
-    {% for regular_pizza in regular_pizzas %}
-    <li>{{regular_pizza.name}} - {{regular_pizza.size}}: {{regular_pizza.prize}}</li>
+    {% for name, objects in RegularPizzas.items %}
+    <li>{{name}} - {% for object in objects %}
+        {{object.size}}  : {{object.prize}}  ,
+        {% endfor %}</li>
     {% endfor %}
 </ul>
+
 <h2>Sicilian Pizzas</h2>
 <ul>
-    {% for sicilian_pizza in sicilian_pizzas %}
-      <li>{{sicilian_pizza.name}} - {{sicilian_pizza.size}}: {{sicilian_pizza.prize}}</li>
+    {% for name, objects in SicilianPizzas.items %}
+    <li>{{name}} - {% for object in objects %}
+        {{object.size}}  : {{object.prize}}  ,
+        {% endfor %}</li>
     {% endfor %}
 </ul>
+
+<h2>Subs </h2>
+<ul>
+    {% for name, objects in Subs.items %}
+    <li>{{name}} - {% for object in objects %}
+        {{object.size}}  : {{object.prize}}  ,
+        {% endfor %}</li>
+    {% endfor %}
+</ul>
+
 {% endblock %}
