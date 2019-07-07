@@ -6,31 +6,14 @@ Menu
 
 {% block body %}
 <h1>Menu</h1>
-<h2>Regular Pizzas</h2>
-<ul>
-    {% for name, objects in RegularPizzas.items %}
-    <li>{{name}} - {% for object in objects %}
-        {{object.size}}  : {{object.prize}}  ,
-        {% endfor %}</li>
-    {% endfor %}
-</ul>
-
-<h2>Sicilian Pizzas</h2>
-<ul>
-    {% for name, objects in SicilianPizzas.items %}
-    <li>{{name}} - {% for object in objects %}
-        {{object.size}}  : {{object.prize}}  ,
-        {% endfor %}</li>
-    {% endfor %}
-</ul>
-
-<h2>Subs </h2>
-<ul>
-    {% for name, objects in Subs.items %}
-    <li>{{name}} - {% for object in objects %}
-        {{object.size}}  : {{object.prize}}  ,
-        {% endfor %}</li>
-    {% endfor %}
-</ul>
-
+{% for type, names in types.items %}
+    <h2>{{type}}</h2>
+    <ul>
+        {% for name, objects in names.items %}
+        <li>{{name}} - {% for object in objects %}
+            {{object.size}}  : {{object.prize}}  ,
+            {% endfor %}</li>
+        {% endfor %}
+    </ul>
+{% endfor %}
 {% endblock %}

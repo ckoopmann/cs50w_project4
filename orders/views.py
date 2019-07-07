@@ -7,7 +7,7 @@ def index(request):
 
     types  = MenuItem.objects.order_by().values_list('type', flat = True).distinct()
 
-    context = {}
+    type_dict = {}
 
     for type in types:
         values = {}
@@ -17,8 +17,10 @@ def index(request):
         for name in names:
             values[name] = MenuItem.objects.filter(type = type, name = name)
 
-        context[type.replace(" ", "")+'s'] = values
+        type_dict[type] = values
 
-    print(context)
+    print(type_dict)
+
+    context = {'types' : type_dict}
 
     return render(request, "orders/index.html", context)
