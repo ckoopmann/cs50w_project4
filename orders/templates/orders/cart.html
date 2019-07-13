@@ -1,0 +1,15 @@
+{% extends "orders/layout.html" %}
+
+{% load crispy_forms_tags %}
+{% block title %}
+Shopping Cart
+{% endblock %}
+
+{% block body %}
+<h1>{{order}}</h1>
+<ul>
+{% for orderitem in orderitems %}
+    <li>{{orderitem}} <a href="remove/{{orderitem.id}}">Remove</a></li>
+{% endfor %}
+</ul>
+{% endblock %}

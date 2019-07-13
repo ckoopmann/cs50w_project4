@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -19,12 +20,22 @@ class Topping(models.Model):
     def __str__(self):
         return f"{self.id} - {self.name}"
 
-class OrderItem(models.Model):
-    menuitem = models.ForeignKey(MenuItem, on_delete=models.CASCADE)
-    toppings = models.ManyToManyField(Topping)
+class Order(models.Model):
+    status = models.CharField(max_length = 30, default = 'Open')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        display = f"{self.menuitem.id} - {self.menuitem.type}, {self.menuitem.name}, {self.menuitem.size} - Toppings: "
+        return f"{self.id} - {self.status} - {self.user}"
+
+
+class OrderItem(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    menuitem = models.ForeignKey(MenuItem, on_delete=models.CASCADE)
+    toppings = models.ManyToManyField(Topping)
+    quantity = models.IntegerField(default = 1)
+
+    def __str__(self):
+        display = f"{self.id} - {self.menuitem.type}, {self.menuitem.name}, {self.menuitem.size} - Quantity: {self.quantity} - Unit Prize: {self.menuitem.prize} - Toppings: "
 
         for topping in self.toppings.all():
             display +=f" {topping.name},"

@@ -1,0 +1,20 @@
+{% extends "orders/layout.html" %}
+
+{% load crispy_forms_tags %}
+{% block title %}
+MenuItem
+{% endblock %}
+
+{% block body %}
+<h1>{{menuitem}}</h1>
+<form method="post">
+    {% csrf_token %}
+    <fieldset class="form-group">
+        <legend class = "border_bottom mb-4">Add Order</legend>
+        {{ form|crispy }}
+    </fieldset>
+    <div class="form-group">
+        <button class = "btn btn-outline-info" type="submit">Add</button>
+    </div>
+</form>
+{% endblock %}

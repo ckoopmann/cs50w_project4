@@ -11,7 +11,7 @@ Menu
     <ul>
         {% for name, objects in names.items %}
         <li>{{name}} - {% for object in objects %}
-            {{object.size}}  : {{object.prize}}  ,
+            <a href="add/{{object.id}}">{{object.size}}  : {{object.prize}}</a>,
             {% endfor %}</li>
         {% endfor %}
     </ul>
