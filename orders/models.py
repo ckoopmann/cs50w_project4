@@ -18,3 +18,15 @@ class Topping(models.Model):
 
     def __str__(self):
         return f"{self.id} - {self.name}"
+
+class OrderItem(models.Model):
+    menuitem = models.ForeignKey(MenuItem, on_delete=models.CASCADE)
+    toppings = models.ManyToManyField(Topping)
+
+    def __str__(self):
+        display = f"{self.menuitem.id} - {self.menuitem.type}, {self.menuitem.name}, {self.menuitem.size} - Toppings: "
+
+        for topping in self.toppings.all():
+            display +=f" {topping.name},"
+
+        return display

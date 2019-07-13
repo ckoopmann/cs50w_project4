@@ -7,7 +7,7 @@ from .forms import UserRegisterForm
 
 def logout_view(request):
   logout(request)
-  return HttpResponseRedirect(' login')
+  return HttpResponseRedirect('login')
 
 
 def register(request):
