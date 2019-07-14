@@ -12,4 +12,7 @@ Shopping Cart
     <li>{{orderitem}} <a href="remove/{{orderitem.id}}">Remove</a></li>
 {% endfor %}
 </ul>
+<form action = "/place/{{order.id}}">
+    <button class = "btn btn-outline-info" type="submit">Place Order</button>
+</form>
 {% endblock %}

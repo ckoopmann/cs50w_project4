@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.forms import HiddenInput
 from .models import MenuItem, OrderItem, Order
 from .forms import OrderItemForm
 
@@ -44,11 +45,23 @@ def add(request, id):
     context = {'menuitem' : menuitem,
     'form':form}
 
+    form.fields['order'].widget = HiddenInput()
+
     return render(request, "orders/add.html", context)
 
 def remove(request, id):
     OrderItem.objects.get(id=id).delete()
     return redirect('cart')
+
+
+def place(place, id):
+    order = Order.objects.get(id=id)
+    orderitems_no = order.orderitem_set.count()
+    if orderitems_no == 0:
+        return redirect('cart')
+    order.status = 'Placed'
+    order.save()
+    return redirect('index')
 
 def cart(request):
     order = Order.objects.filter(user = request.user, status = 'Open').first()
