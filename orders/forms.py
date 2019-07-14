@@ -5,11 +5,13 @@ class OrderItemForm(ModelForm):
 
     class Meta:
         model = OrderItem
-        fields = ['menuitem','toppings', 'quantity', 'order']
+        fields = ['menuitem','toppings', 'quantity', 'order', 'extras']
 
     def __init__(self, *args, **kwargs):
         super(OrderItemForm, self).__init__(*args, **kwargs)
         self.fields['toppings'].required = False
+        self.fields['extras'].required = False
+
 
     def clean_toppings(self):
         toppings = self.cleaned_data['toppings']
@@ -20,3 +22,8 @@ class OrderItemForm(ModelForm):
             else:
                 raise ValidationError(f"Please select {num_toppings} toppings for this product")
         return(toppings)
+
+    def clean(self):
+        cleaned_data = self.cleaned_data
+        print(cleaned_data)
+        return(cleaned_data)

@@ -36,17 +36,34 @@ def add(request, id):
         order.save()
 
     if request.method == 'POST':
-        form = OrderItemForm(request.POST)
+        data = request.POST.copy()
+        print(data)
+        if 'toppings' in data and data['toppings'] == '':
+            del data['toppings']
+        if 'extras' in data and data['extras'] == '':
+            del data['extras']
+        form = OrderItemForm(data)
+        print(form.data)
         if form.is_valid():
             form.save()
             return redirect('index')
     else:
-        form = OrderItemForm(initial = {'menuitem' : menuitem, 'order':order})
-    context = {'menuitem' : menuitem,
-    'form':form}
+        form = OrderItemForm(initial = {'menuitem' : menuitem, 'order':order, 'toppings':None})
 
     form.fields['order'].widget = HiddenInput()
+    form.fields['menuitem'].widget = HiddenInput()
 
+    if menuitem.num_toppings == 0:
+        form.fields['toppings'].widget = HiddenInput()
+
+    available_items = menuitem.extra_set
+    if available_items.count() == 0:
+        form.fields['extras'].widget = HiddenInput()
+    else:
+        form.fields['extras'].queryset = available_items.all()
+
+    context = {'menuitem' : menuitem,
+    'form':form}
     return render(request, "orders/add.html", context)
 
 def remove(request, id):
