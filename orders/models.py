@@ -33,6 +33,13 @@ class Order(models.Model):
     def __str__(self):
         return f"{self.id} - {self.status} - {self.user}"
 
+    @property
+    def total(self):
+        total = 0
+        for orderitem in self.orderitem_set.all():
+            total += orderitem.cost
+        return total
+
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
@@ -47,4 +54,15 @@ class OrderItem(models.Model):
         for topping in self.toppings.all():
             display +=f" {topping.name},"
 
+        for extra in self.extras.all():
+            display +=f" {extra.name},"
+
         return display
+
+    @property
+    def cost(self):
+        cost = self.menuitem.prize
+        for extra in self.extras.all():
+            cost += extra.prize
+        cost = cost*self.quantity
+        return cost
