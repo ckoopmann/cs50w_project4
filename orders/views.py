@@ -70,13 +70,19 @@ def remove(request, id):
     OrderItem.objects.get(id=id).delete()
     return redirect('cart')
 
+def cancel(request, id):
+    order = Order.objects.get(id=id)
+    order.status = 'Canceled'
+    order.save()
+    return redirect('orderlist')
+
 
 def place(place, id):
     order = Order.objects.get(id=id)
     orderitems_no = order.orderitem_set.count()
     if orderitems_no == 0:
         return redirect('cart')
-    order.status = 'Placed'
+    order.status = 'Pending'
     order.save()
     return redirect('index')
 
@@ -90,3 +96,14 @@ def cart(request):
     orderitems = order.orderitem_set.all()
     context = {'order' : order, 'orderitems':orderitems}
     return render(request, "orders/cart.html", context)
+
+
+def orderlist(request):
+    pending_orders = Order.objects.filter(user = request.user, status = 'Pending').all()
+
+    completed_orders = Order.objects.filter(user = request.user, status = 'Completed').all()
+
+    canceled_orders = Order.objects.filter(user = request.user, status = 'Canceled').all()
+
+    context = {'pending_orders' : pending_orders, 'completed_orders' : completed_orders, 'canceled_orders' : canceled_orders}
+    return render(request, "orders/orderlist.html", context)

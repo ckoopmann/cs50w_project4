@@ -31,7 +31,9 @@ class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.id} - {self.status} - {self.user}"
+        display = f"ID: {self.id} - Status:{self.status} - Username: {self.user} - Total: {self.total} "
+
+        return display
 
     @property
     def total(self):
@@ -49,14 +51,18 @@ class OrderItem(models.Model):
     quantity = models.IntegerField(default = 1)
 
     def __str__(self):
-        display = f"{self.id} - {self.menuitem.type}, {self.menuitem.name}, {self.menuitem.size} - Quantity: {self.quantity} - Unit Prize: {self.menuitem.prize} - Toppings: "
+        display = f"{self.quantity} x {self.menuitem.type}, {self.menuitem.name}, {self.menuitem.size}"
 
+        if self.toppings.count() > 0:
+            display += " - Toppings: "
         for topping in self.toppings.all():
             display +=f" {topping.name},"
-
+        if self.extras.count() > 0:
+            display += " -  Extras: "
         for extra in self.extras.all():
             display +=f" {extra.name},"
 
+        display += f" - Prize: {self.cost}"
         return display
 
     @property
