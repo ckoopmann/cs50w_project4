@@ -7,6 +7,10 @@ from .forms import OrderItemForm
 # Create your views here.
 def index(request):
 
+    if not request.user.is_authenticated:
+        return redirect('login')
+
+
     types  = MenuItem.objects.order_by().values_list('type', flat = True).distinct()
 
     type_dict = {}
